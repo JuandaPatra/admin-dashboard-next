@@ -19,28 +19,27 @@ export const LinktreeTable = () => {
       header: "Name",
       cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor("property_name", {
-      header: "Property Name",
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor("status", {
-      header: "Status",
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor("date", {
-      header: "Tgl. Input",
-      cell: (info) => info.getValue(),
-    }),
+
     columnHelper.display({
       id: "edit",
       header: "Actions",
       cell: ({ row }) => (
+       <div>
         <button
           onClick={() => null}
           className="bg-cyan-500 w-20  text-white px-3 py-1 rounded text-base"
         >
           Edit
         </button>
+        <button
+          onClick={() => null}
+          className="bg-cyan-500 w-20  text-white px-3 py-1 rounded text-base"
+        >
+          Delete
+        </button>
+
+       </div>
+        
       ),
     }),
   ];
@@ -65,7 +64,7 @@ export const LinktreeTable = () => {
   });
   return (
     <>
-      <div className="overflow-x-auto mt-2 pb-5">
+      <div className="overflow-x-auto mt-2 pb-5 px-3">
         <table className=" table-fixed w-[600px] lg:w-full  bg-white border border-gray-200 rounded-lg">
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (

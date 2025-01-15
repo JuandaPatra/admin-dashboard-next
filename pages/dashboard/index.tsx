@@ -6,6 +6,7 @@ import { Button  } from "flowbite-react";
 import { HiHome } from "react-icons/hi";
 import BreadcrumbComponent from "@/components/Breadcrumb";
 import PopupLinktree from "@/components/PopupLinktree";
+import { LinktreeTable } from "@/components/LinktreeTable";
 // Tipe untuk elemen yang bisa diseret
 interface DragItem {
   type: string;
@@ -32,8 +33,8 @@ export default function Dashboard() {
         <h1 className="font-semibold text-xl text-center pt-3"> Linktree Page</h1>
         <div className="flex justify-end px-3">
         <Button color="gray" onClick={handleOpenModal}>Add Template</Button>
-
         </div>
+        <LinktreeTable />
       </Layout>
     </>
   );
