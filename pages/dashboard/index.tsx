@@ -1,12 +1,14 @@
 "use client";
 import { Layout } from "@/components/Layout";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { Button  } from "flowbite-react";
 import { HiHome } from "react-icons/hi";
 import BreadcrumbComponent from "@/components/Breadcrumb";
 import PopupLinktree from "@/components/PopupLinktree";
 import { LinktreeTable } from "@/components/LinktreeTable";
+
+import { useRouter } from "next/router";
 // Tipe untuk elemen yang bisa diseret
 interface DragItem {
   type: string;
@@ -18,6 +20,13 @@ const ItemType = {
 };
 
 export default function Dashboard() {
+
+  const router = useRouter();
+  const { id } = router.query;
+  console.log(id)
+  useEffect(() => {
+  }, [id]);
+
   const [openModal, setOpenModal] = useState(false);
 
   const handleCloseModal = () => {

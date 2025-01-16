@@ -7,16 +7,52 @@ import {
   flexRender,
   Row,
 } from "@tanstack/react-table";
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+
+interface Template {
+  id: number;
+  link: string;
+  name: string;
+}
+
+interface TemplateTableState {
+  data: Template[];
+  loading: boolean;
+  fetchData: () => Promise<void>;
+}
 
 export const LinktreeTable = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<Template[]>([]);
+
+  useEffect(() => {
+    {
+      fetchData();
+    }
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/link-dashboard`
+      );
+      console.log(response.data.data);
+      setData(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // Define columns
-  const columnHelper = createColumnHelper<any>();
+  const columnHelper = createColumnHelper<Template>();
   const columns = [
     columnHelper.accessor("name", {
       header: "Name",
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor("link", {
+      header: "Link",
       cell: (info) => info.getValue(),
     }),
 
@@ -24,22 +60,25 @@ export const LinktreeTable = () => {
       id: "edit",
       header: "Actions",
       cell: ({ row }) => (
-       <div>
-        <button
-          onClick={() => null}
-          className="bg-cyan-500 w-20  text-white px-3 py-1 rounded text-base"
-        >
-          Edit
-        </button>
-        <button
-          onClick={() => null}
-          className="bg-cyan-500 w-20  text-white px-3 py-1 rounded text-base"
-        >
-          Delete
-        </button>
-
-       </div>
-        
+        <div className="flex gap-3">
+          <Link href={`/dashboard/detail/${row.original.id}`}>
+            {/* <a className="bg-yellow-500 w-20  text-white px-3 py-1 rounded text-base">
+              Edit
+            </a> */}
+          <button
+            onClick={() => null}
+            className="bg-yellow-500 w-20  text-white px-3 py-1 rounded text-base"
+          >
+            Edit
+          </button>
+          </Link>
+          <button
+            onClick={() => null}
+            className="bg-red-500 w-20  text-white px-3 py-1 rounded text-base"
+          >
+            Delete
+          </button>
+        </div>
       ),
     }),
   ];
@@ -62,6 +101,7 @@ export const LinktreeTable = () => {
       //   setPage(pageIndex + 1);
     },
   });
+
   return (
     <>
       <div className="overflow-x-auto mt-2 pb-5 px-3">

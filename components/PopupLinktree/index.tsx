@@ -21,9 +21,30 @@ export default function PopupLinktree({ show, onClose }: PopupLinktreeProps) {
     name: "",
     link: "",
   });
+  
 
-  const handleSubmit =()=>{
-    console.log(formData)
+
+
+  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>)=>{
+    e.preventDefault();
+    try {
+      const response = await axios.post( `${process.env.NEXT_PUBLIC_API_URL}/linktree-template`, {
+        name: formData.name,
+        link: formData.link 
+      })
+
+      console.log(response)
+      onClose()
+
+      if(response.status == 200){
+        setFormData({
+          name: "",
+          link : ""
+        })
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const handleChange=(e : any)=>{
