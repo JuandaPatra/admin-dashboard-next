@@ -11,6 +11,10 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
+import { CiEdit } from "react-icons/ci";
+import { MdAutoDelete } from "react-icons/md";
+import { PopupDeleteLinktree } from "../PopupDeleteLinktree";
+
 interface Template {
   id: number;
   link: string;
@@ -25,6 +29,8 @@ interface TemplateTableState {
 
 export const LinktreeTable = () => {
   const [data, setData] = useState<Template[]>([]);
+  const [deletePopup, setDeletePopup] = useState<boolean>(false);
+  const [deleteId, setDeleteId] = useState<number>(0)
 
   useEffect(() => {
     {
@@ -37,7 +43,6 @@ export const LinktreeTable = () => {
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/link-dashboard`
       );
-      console.log(response.data.data);
       setData(response.data.data);
     } catch (error) {
       console.log(error);
@@ -62,21 +67,20 @@ export const LinktreeTable = () => {
       cell: ({ row }) => (
         <div className="flex gap-3">
           <Link href={`/dashboard/detail/${row.original.id}`}>
-            {/* <a className="bg-yellow-500 w-20  text-white px-3 py-1 rounded text-base">
-              Edit
-            </a> */}
           <button
             onClick={() => null}
-            className="bg-yellow-500 w-20  text-white px-3 py-1 rounded text-base"
+            className="bg-yellow-500 w-20  text-white px-3 py-1 rounded text-base flex justify-center items-center gap-1"
           >
+            <CiEdit className=" inline-block" />
             Edit
           </button>
           </Link>
           <button
-            onClick={() => null}
-            className="bg-red-500 w-20  text-white px-3 py-1 rounded text-base"
+            onClick={()=>handleDeleteButton(row.original.id)}
+            className="bg-red-500 w-20  text-white px-3 py-1 rounded text-base flex justify-center items-center gap-1"
           >
-            Delete
+            <MdAutoDelete className=" inline-block" />
+            
           </button>
         </div>
       ),
@@ -102,8 +106,15 @@ export const LinktreeTable = () => {
     },
   });
 
+  const handleDeleteButton=(e:any)=>{
+    setDeletePopup(true)
+    setDeleteId(e)
+  }
+
   return (
     <>
+
+    <PopupDeleteLinktree show={deletePopup} onClose={() => setDeletePopup(false)} id={deleteId} />
       <div className="overflow-x-auto mt-2 pb-5 px-3">
         <table className=" table-fixed w-[600px] lg:w-full  bg-white border border-gray-200 rounded-lg">
           <thead>
