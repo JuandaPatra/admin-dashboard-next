@@ -43,7 +43,9 @@ export const LinktreeTable = () => {
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/link-dashboard`
       );
-      setData(response.data.data);
+      if(response.data.data !== data){
+        setData(response.data.data);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -111,10 +113,12 @@ export const LinktreeTable = () => {
     setDeleteId(e)
   }
 
+  console.log(data);
   return (
     <>
-
-    <PopupDeleteLinktree show={deletePopup} onClose={() => setDeletePopup(false)} id={deleteId} />
+    {deletePopup && (
+      <PopupDeleteLinktree show={deletePopup} onClose={() => setDeletePopup(false)} id={deleteId} />
+    )}
       <div className="overflow-x-auto mt-2 pb-5 px-3">
         <table className=" table-fixed w-[600px] lg:w-full  bg-white border border-gray-200 rounded-lg">
           <thead>

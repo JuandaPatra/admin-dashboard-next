@@ -28,26 +28,40 @@ export function SidebarLayout() {
   };
   return (
     <div className="">
-      <Sidebar className="h-[100vh]">
+
+
+      <Sidebar
+        aria-label="Sidebar with multi-level dropdown example"
+        className="h-[100vh]"
+        collapsed={false}
+      >
+        <h1 className=" font-semibold text-3xl text-cyan-800 pl-3">
+          ADMIN PAGE
+        </h1>
         <Sidebar.Items>
           <Sidebar.ItemGroup>
-            <Sidebar.Item href="/" icon={HiChartPie}
-             active={isActive("/")}
-             >
+            <Sidebar.Item href="/" icon={HiChartPie} active={isActive("/")}>
               Home
             </Sidebar.Item>
-            <Sidebar.Item
-              href="/dashboard"
-              icon={HiViewBoards}
-              labelColor="dark"
-              active={isActive("/dashboard")}
-            >
-              Dashboard
+            <Sidebar.Collapse icon={HiShoppingBag} label="Dashboard" open={router.pathname.startsWith("/dashboard") || router.pathname == "/dashboard"}  >
+              <Sidebar.Item href={"/dashboard"} active={isActive("/dashboard")}>Linktree Page</Sidebar.Item>
+              <Sidebar.Item href={"/dashboard/socmed"} active={isActive("/dashboard/socmed")}>Socmed</Sidebar.Item>
+            </Sidebar.Collapse>
+            <Sidebar.Item href="#" icon={HiInbox}>
+              Inbox
             </Sidebar.Item>
-            <Sidebar.Item href="#" icon={HiInbox} label="3" >
-              Sosmed
+            <Sidebar.Item href="#" icon={HiUser}>
+              Users
             </Sidebar.Item>
-            
+            <Sidebar.Item href="#" icon={HiShoppingBag}>
+              Products
+            </Sidebar.Item>
+            <Sidebar.Item href="#" icon={HiArrowSmRight}>
+              Sign In
+            </Sidebar.Item>
+            <Sidebar.Item href="#" icon={HiTable}>
+              Sign Up
+            </Sidebar.Item>
           </Sidebar.ItemGroup>
         </Sidebar.Items>
       </Sidebar>
